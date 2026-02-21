@@ -1,16 +1,27 @@
-/* RiskBadge — dynamic color via --risk-color */
+/* RiskBadge — color via BEM modifier */
 .risk-badge {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 14px; border-radius: 6px;
-  background: rgba(0,0,0,0.3); border: 1px solid var(--risk-color);
+  background: rgba(0,0,0,0.3);
   margin-bottom: 16px;
 }
 .risk-badge__dot {
   width: 14px; height: 14px; border-radius: 50%;
-  background: var(--risk-color); box-shadow: 0 0 12px var(--risk-color);
 }
 .risk-badge__label {
   font-family: var(--font-mono); font-weight: 700;
-  font-size: 0.9375rem; color: var(--risk-color);
+  font-size: 0.9375rem;
 }
 .risk-badge__threshold { font-size: 0.75rem; color: var(--text-muted); }
+
+.risk-badge--maneuver                    { border: 1px solid var(--risk-red); }
+.risk-badge--maneuver .risk-badge__dot   { background: var(--risk-red); box-shadow: 0 0 12px var(--risk-red); }
+.risk-badge--maneuver .risk-badge__label { color: var(--risk-red); }
+
+.risk-badge--monitor                    { border: 1px solid var(--risk-amber); }
+.risk-badge--monitor .risk-badge__dot   { background: var(--risk-amber); box-shadow: 0 0 12px var(--risk-amber); }
+.risk-badge--monitor .risk-badge__label { color: var(--risk-amber); }
+
+.risk-badge--no-action                    { border: 1px solid var(--risk-green); }
+.risk-badge--no-action .risk-badge__dot   { background: var(--risk-green); box-shadow: 0 0 12px var(--risk-green); }
+.risk-badge--no-action .risk-badge__label { color: var(--risk-green); }

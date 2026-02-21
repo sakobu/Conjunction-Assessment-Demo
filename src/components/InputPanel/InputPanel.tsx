@@ -26,17 +26,16 @@ export function InputPanel({
           form={form}
           prefix="primary"
           label="Primary Object"
-          color="var(--obj-primary)"
         />
 
         <SpaceObjectFields
           form={form}
           prefix="secondary"
           label="Secondary Object"
-          color="var(--obj-secondary)"
         />
 
-        {form.errors["secondary.id"] === "Primary and secondary must be different objects" && (
+        {form.errors["secondary.id"] ===
+          "Primary and secondary must be different objects" && (
           <div className="field-error field-error--spaced">
             {form.errors["secondary.id"]}
           </div>

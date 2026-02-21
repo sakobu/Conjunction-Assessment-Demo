@@ -11,14 +11,12 @@ type SpaceObjectFieldsProps = {
   form: FormInstance;
   prefix: "primary" | "secondary";
   label: string;
-  color: string;
 };
 
 export function SpaceObjectFields({
   form,
   prefix,
   label,
-  color,
 }: SpaceObjectFieldsProps) {
   const values = form.values[prefix];
 
@@ -36,10 +34,7 @@ export function SpaceObjectFields({
 
   return (
     <div className="panel__section">
-      <div
-        className="panel__section-title panel__section-title--object"
-        style={{ "--obj-color": color } as React.CSSProperties}
-      >
+      <div className={`panel__section-title panel__section-title--${prefix}`}>
         {label}
       </div>
 

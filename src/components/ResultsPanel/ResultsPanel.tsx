@@ -1,7 +1,4 @@
-import type {
-  ManeuverRecommendation,
-  AssessError,
-} from "../../lib/index.ts";
+import type { ManeuverRecommendation, AssessError } from "../../lib/index.ts";
 import { RiskBadge } from "./RiskBadge.tsx";
 import { MetricGrid } from "./MetricGrid.tsx";
 import { ErrorDisplay } from "./ErrorDisplay.tsx";
@@ -40,15 +37,13 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
             <MetricGrid rec={result.data} />
             <div className="panel__section">
               <div className="panel__section-title">Reasoning</div>
-              <div className="results-reasoning">
-                {result.data.reasoning}
-              </div>
+              <div className="results-reasoning">{result.data.reasoning}</div>
             </div>
 
             <div className="panel__section">
               <div className="panel__section-title">Objects</div>
               <div className="results-objects">
-                <div className="results-objects__row" style={{ '--obj-color': 'var(--obj-primary)' } as React.CSSProperties}>
+                <div className="results-objects__row results-objects__row--primary">
                   <span className="results-objects__dot">&#9679;</span>{" "}
                   <span className="results-objects__id">
                     {result.data.risk.primary.id}
@@ -57,7 +52,7 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
                     {result.data.risk.primary.objectType}
                   </span>
                 </div>
-                <div className="results-objects__row" style={{ '--obj-color': 'var(--obj-secondary)' } as React.CSSProperties}>
+                <div className="results-objects__row results-objects__row--secondary">
                   <span className="results-objects__dot">&#9679;</span>{" "}
                   <span className="results-objects__id">
                     {result.data.risk.secondary.id}

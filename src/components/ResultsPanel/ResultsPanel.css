@@ -13,6 +13,7 @@
 .results-objects { font-size: 0.8125rem; }
 .results-objects__row { margin-bottom: 4px; }
 .results-objects__row:last-child { margin-bottom: 0; }
-.results-objects__dot { color: var(--obj-color); }
+.results-objects__row--primary .results-objects__dot   { color: var(--obj-primary); }
+.results-objects__row--secondary .results-objects__dot { color: var(--obj-secondary); }
 .results-objects__id { font-family: var(--font-mono); }
 .results-objects__type { color: var(--text-muted); margin-left: 8px; }
