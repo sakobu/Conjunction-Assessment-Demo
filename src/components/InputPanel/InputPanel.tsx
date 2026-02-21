@@ -1,6 +1,7 @@
 import type { useConjunctionAssessment } from "../../hooks/useConjunctionAssessment.ts";
 import { ScenarioSelector } from "./ScenarioSelector.tsx";
 import { SpaceObjectFields } from "./SpaceObjectFields.tsx";
+import "./InputPanel.css";
 
 type InputPanelProps = {
   form: ReturnType<typeof useConjunctionAssessment>["form"];

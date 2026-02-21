@@ -1,4 +1,5 @@
 import { RED_THRESHOLD, YELLOW_THRESHOLD } from "../../lib/index.ts";
+import "./RiskBadge.css";
 
 type RiskBadgeProps = {
   action: "no_action" | "monitor" | "maneuver";

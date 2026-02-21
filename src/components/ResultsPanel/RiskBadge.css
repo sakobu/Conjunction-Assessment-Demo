@@ -1,0 +1,16 @@
+/* RiskBadge — dynamic color via --risk-color */
+.risk-badge {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 6px;
+  background: rgba(0,0,0,0.3); border: 1px solid var(--risk-color);
+  margin-bottom: 16px;
+}
+.risk-badge__dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--risk-color); box-shadow: 0 0 12px var(--risk-color);
+}
+.risk-badge__label {
+  font-family: var(--font-mono); font-weight: 700;
+  font-size: 0.9375rem; color: var(--risk-color);
+}
+.risk-badge__threshold { font-size: 0.75rem; color: var(--text-muted); }

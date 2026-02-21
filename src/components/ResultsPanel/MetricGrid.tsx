@@ -1,4 +1,5 @@
 import { MetricCard } from "./MetricCard.tsx";
+import "./MetricGrid.css";
 import {
   match as matchOption,
   mapWith as optMapWith,

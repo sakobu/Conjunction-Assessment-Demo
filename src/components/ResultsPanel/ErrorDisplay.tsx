@@ -1,4 +1,5 @@
 import type { AssessError } from "../../lib/index.ts";
+import "./ErrorDisplay.css";
 
 type ErrorDisplayProps = {
   error: AssessError;

@@ -1,3 +1,5 @@
+import "./MetricCard.css";
+
 type MetricCardProps = {
   label: string;
   value: string;

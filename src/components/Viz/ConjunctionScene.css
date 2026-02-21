@@ -1,0 +1,6 @@
+/* Viewport */
+.viewport {
+  position: relative;
+  background: var(--bg-base);
+  overflow: hidden;
+}

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
+import "./ConjunctionScene.css";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Stars, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";

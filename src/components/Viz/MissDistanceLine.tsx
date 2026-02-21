@@ -1,5 +1,5 @@
 import { Line, Html } from "@react-three/drei";
-import "../ResultsPanel/ResultsPanel.css";
+import "./MissDistanceLine.css";
 
 type MissDistanceLineProps = {
   start: [number, number, number];

@@ -1,5 +1,6 @@
 import type { ConjunctionInput, Vec3 } from "../../lib/index.ts";
 import type { useForm } from "@railway-ts/use-form";
+import "./SpaceObjectFields.css";
 
 type FormInstance = ReturnType<typeof useForm<ConjunctionInput>>;
 
