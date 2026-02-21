@@ -36,7 +36,7 @@ export function SpaceObjectFields({
     <div className="panel__section">
       <div
         className="panel__section-title panel__section-title--object"
-        style={{ '--obj-color': color } as React.CSSProperties}
+        style={{ "--obj-color": color } as React.CSSProperties}
       >
         {label}
       </div>

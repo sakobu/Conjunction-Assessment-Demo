@@ -377,7 +377,7 @@ export type Scenario = {
 
 export const scenarios: Scenario[] = [
   {
-    label: "Scenario 1: Close LEO Conjunction (RED - maneuver)",
+    label: "ISS vs Cosmos Debris — Maneuver",
     input: {
       primary: {
         id: "ISS (ZARYA)",
@@ -396,7 +396,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Scenario 2: Safe Pass - No Covariance (GREEN - no action)",
+    label: "Sentinel-6A Flyby — No Action",
     input: {
       primary: {
         id: "SENTINEL-6A",
@@ -413,7 +413,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Scenario 3: Yellow Zone - Monitor",
+    label: "Starlink vs Fengyun Debris — Monitor",
     input: {
       primary: {
         id: "STARLINK-1234",
@@ -432,7 +432,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Scenario 4: Validation Error - Same Object",
+    label: "Error: Duplicate Object ID",
     input: {
       primary: {
         id: "ISS",
@@ -449,7 +449,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Scenario 5: Validation Error - Superluminal Debris",
+    label: "Error: Invalid Velocity",
     input: {
       primary: {
         id: "HUBBLE",
@@ -466,7 +466,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Scenario 6: Domain Error - Near-Zero Relative Velocity",
+    label: "Error: Co-orbital (Near-Zero Vrel)",
     input: {
       primary: {
         id: "CALM-SAT-1",
