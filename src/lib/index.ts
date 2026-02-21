@@ -138,9 +138,12 @@ const vec3Sub = (a: Vec3, b: Vec3): Vec3 => [
   a[1] - b[1],
   a[2] - b[2],
 ];
+
 const vec3Dot = (a: Vec3, b: Vec3): number =>
   a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
 const vec3Mag = (v: Vec3): number => Math.sqrt(vec3Dot(v, v));
+
 const vec3Scale = curry(
   (s: number, v: Vec3): Vec3 => [v[0] * s, v[1] * s, v[2] * s],
 );
@@ -153,6 +156,7 @@ const timeToClosestApproach = (relPos: Vec3, relVel: Vec3): number => {
   return Math.max(0, -vec3Dot(relPos, relVel) / vSquared);
 };
 
+// Effectively POCA Propagation (linear, no perturbations)
 export const propagateLinear = curry(
   (dt: number, pos: Vec3, vel: Vec3): Vec3 => [
     pos[0] + vel[0] * dt,
@@ -171,12 +175,15 @@ export const computeGeometry = (
   const primaryAtTCA = propagateLinear(tca)(input.primary.position)(
     input.primary.velocity,
   );
+
   const secondaryAtTCA = propagateLinear(tca)(input.secondary.position)(
     input.secondary.velocity,
   );
+
   const separationAtTCA = vec3Sub(secondaryAtTCA, primaryAtTCA);
 
   const primaryMag = vec3Mag(primaryAtTCA);
+
   const radialSep =
     primaryMag > 1e-12
       ? vec3Dot(separationAtTCA, vec3Scale(1 / primaryMag)(primaryAtTCA))
@@ -290,15 +297,14 @@ const rules: Rule[] = [
         : `Pc = ${pc.toExponential(2)} in yellow zone - refine with updated tracking`,
     deltaV: noneDv,
   },
+  {
+    action: "no_action",
+    test: () => true,
+    reasoning: (pc) =>
+      `Pc = ${pc.toExponential(2)} below yellow threshold - no action required`,
+    deltaV: noneDv,
+  },
 ];
-
-const defaultRule: Rule = {
-  action: "no_action",
-  test: () => true,
-  reasoning: (pc) =>
-    `Pc = ${pc.toExponential(2)} below yellow threshold - no action required`,
-  deltaV: noneDv,
-};
 
 const recommend = (risk: CollisionRisk): ManeuverRecommendation => {
   const {
@@ -306,7 +312,7 @@ const recommend = (risk: CollisionRisk): ManeuverRecommendation => {
     missDistance: miss,
     timeToClosestApproach: tca,
   } = risk;
-  const rule = rules.find((r) => r.test(pc, miss)) ?? defaultRule;
+  const rule = rules.find((r) => r.test(pc, miss))!;
 
   return {
     action: rule.action,
