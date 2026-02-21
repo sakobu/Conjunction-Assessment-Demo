@@ -92,7 +92,10 @@ const positionSchema = tupleOf(
   chain(parseNumber(), finite(), min(-50_000), max(50_000)),
   3,
 );
-const velocitySchema = tupleOf(chain(parseNumber(), finite(), min(-15), max(15)), 3);
+const velocitySchema = tupleOf(
+  chain(parseNumber(), finite(), min(-15), max(15)),
+  3,
+);
 const covarianceSchema = tupleOf(
   chain(parseNumber(), finite(), min(0), max(100)),
   3,
@@ -158,7 +161,9 @@ export const propagateLinear = curry(
   ],
 );
 
-export const computeGeometry = (input: ConjunctionInput): ConjunctionGeometry => {
+export const computeGeometry = (
+  input: ConjunctionInput,
+): ConjunctionGeometry => {
   const relPos = vec3Sub(input.secondary.position, input.primary.position);
   const relVel = vec3Sub(input.secondary.velocity, input.primary.velocity);
   const tca = timeToClosestApproach(relPos, relVel);
@@ -377,7 +382,7 @@ export type Scenario = {
 
 export const scenarios: Scenario[] = [
   {
-    label: "ISS vs Cosmos Debris — Maneuver",
+    label: "ISS vs Cosmos Debris",
     input: {
       primary: {
         id: "ISS (ZARYA)",
@@ -396,7 +401,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Sentinel-6A Flyby — No Action",
+    label: "Sentinel-6A Flyby",
     input: {
       primary: {
         id: "SENTINEL-6A",
@@ -413,7 +418,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Starlink vs Fengyun Debris — Monitor",
+    label: "Starlink vs Fengyun Debris",
     input: {
       primary: {
         id: "STARLINK-1234",
@@ -432,7 +437,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Error: Duplicate Object ID",
+    label: "Validation: Duplicate Object ID",
     input: {
       primary: {
         id: "ISS",
@@ -449,7 +454,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Error: Invalid Velocity",
+    label: "Validation: Invalid Velocity",
     input: {
       primary: {
         id: "HUBBLE",
@@ -466,7 +471,7 @@ export const scenarios: Scenario[] = [
     },
   },
   {
-    label: "Error: Co-orbital (Near-Zero Vrel)",
+    label: "Validation Domain: Co-orbital",
     input: {
       primary: {
         id: "CALM-SAT-1",
@@ -485,5 +490,3 @@ export const scenarios: Scenario[] = [
     },
   },
 ];
-
-
