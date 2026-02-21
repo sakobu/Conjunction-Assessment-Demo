@@ -1,0 +1,111 @@
+:root {
+  /* Background hierarchy */
+  --bg-base: #0a0e17;
+  --bg-panel: #111827;
+  --bg-card: #1a2332;
+  --bg-input: #0d1117;
+
+  /* Text */
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Borders */
+  --border-subtle: #1e293b;
+  --border-active: #334155;
+
+  /* Risk colors */
+  --risk-green: #22c55e;
+  --risk-amber: #eab308;
+  --risk-red: #ef4444;
+
+  /* Object colors */
+  --obj-primary: #4fc3f7;
+  --obj-secondary: #ff8a65;
+
+  /* Accent */
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+
+  /* Font */
+  --font-mono: "JetBrains Mono", "Fira Code", "SF Mono", "Cascadia Code",
+    ui-monospace, monospace;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--text-primary);
+  background-color: var(--bg-base);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-panel);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-active);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Form elements reset */
+input,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+input[type="number"],
+input[type="text"],
+select {
+  background: var(--bg-input);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  transition: border-color 0.15s;
+  outline: none;
+  width: 100%;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: var(--accent);
+}
+
+select {
+  cursor: pointer;
+}
