@@ -47,7 +47,7 @@ function CameraController({
     const mid = new THREE.Vector3(...target);
     const direction = mid.clone().normalize();
     if (direction.length() === 0) direction.set(0, 0, 1);
-    const cameraPos = mid.clone().add(direction.clone().multiplyScalar(2));
+    const cameraPos = mid.clone().add(direction.clone().multiplyScalar(6));
     camera.position.copy(cameraPos);
     camera.lookAt(mid);
 
@@ -91,12 +91,15 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
 
   // TCA positions
   const primaryAtTCA = useMemo(
-    () => propagateLinear(tca)(values.primary.position)(values.primary.velocity),
+    () =>
+      propagateLinear(tca)(values.primary.position)(values.primary.velocity),
     [tca, values.primary.position, values.primary.velocity],
   );
   const secondaryAtTCA = useMemo(
     () =>
-      propagateLinear(tca)(values.secondary.position)(values.secondary.velocity),
+      propagateLinear(tca)(values.secondary.position)(
+        values.secondary.velocity,
+      ),
     [tca, values.secondary.position, values.secondary.velocity],
   );
 
