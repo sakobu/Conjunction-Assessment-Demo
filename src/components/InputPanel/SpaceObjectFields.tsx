@@ -2,6 +2,8 @@ import type { ConjunctionInput, Vec3 } from "../../lib/index.ts";
 import type { useForm } from "@railway-ts/use-form";
 import "./SpaceObjectFields.css";
 
+const defaultVec3: Vec3 = [0, 0, 0];
+
 type FormInstance = ReturnType<typeof useForm<ConjunctionInput>>;
 
 type SpaceObjectFieldsProps = {
@@ -24,13 +26,11 @@ export function SpaceObjectFields({
     index: number,
     raw: string,
   ) => {
-    const current = [...((values[field] ?? [0, 0, 0]) as Vec3)];
-    current[index] = raw as unknown as number; // parseNumber() handles coercion at validation
-    form.setFieldValue(`${prefix}.${field}`, current);
+    form.setFieldValue(`${prefix}.${field}.${index}`, raw);
   };
 
   const hasCovariance = values.covariance !== undefined;
-  const covValues = (values.covariance ?? [0, 0, 0]) as Vec3;
+  const covValues = values.covariance ?? defaultVec3;
 
   return (
     <div className="panel__section">
