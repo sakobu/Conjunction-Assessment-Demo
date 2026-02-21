@@ -271,40 +271,39 @@ const MIN_WARNING_TIME = 3600; // 1 hour - minimum assumed warning before TCA
 const estimateDeltaV = (targetMiss: number, tca: number): number =>
   targetMiss / Math.max(tca, MIN_WARNING_TIME);
 
-type Rule = {
-  action: ManeuverRecommendation["action"];
-  test: (pc: number, miss: number) => boolean;
+type Action = ManeuverRecommendation["action"];
+
+type ActionSpec = {
   reasoning: (pc: number, miss: number) => string;
   deltaV: (miss: number, tca: number) => Option<number>;
 };
 
-const noneDv = () => none<number>();
-
-const rules: Rule[] = [
-  {
-    action: "maneuver",
-    test: (pc) => pc > RED_THRESHOLD,
+const actionMap: Record<Action, ActionSpec> = {
+  maneuver: {
     reasoning: (pc) =>
       `Pc = ${pc.toExponential(2)} exceeds red threshold (${RED_THRESHOLD.toExponential(0)})`,
     deltaV: (miss, tca) => some(estimateDeltaV(Math.max(5.0 - miss, 1.0), tca)),
   },
-  {
-    action: "monitor",
-    test: (pc, miss) => pc > YELLOW_THRESHOLD || miss < MISS_DISTANCE_SCREEN,
+  monitor: {
     reasoning: (pc, miss) =>
       miss < MISS_DISTANCE_SCREEN
         ? `Miss distance ${miss.toFixed(3)} km below ${MISS_DISTANCE_SCREEN} km screen - refine tracking`
         : `Pc = ${pc.toExponential(2)} in yellow zone - refine with updated tracking`,
-    deltaV: noneDv,
+    deltaV: () => none(),
   },
-  {
-    action: "no_action",
-    test: () => true,
+  no_action: {
     reasoning: (pc) =>
       `Pc = ${pc.toExponential(2)} below yellow threshold - no action required`,
-    deltaV: noneDv,
+    deltaV: () => none(),
   },
-];
+};
+
+const classify = (pc: number, miss: number): Action =>
+  pc > RED_THRESHOLD
+    ? "maneuver"
+    : pc > YELLOW_THRESHOLD || miss < MISS_DISTANCE_SCREEN
+      ? "monitor"
+      : "no_action";
 
 const recommend = (risk: CollisionRisk): ManeuverRecommendation => {
   const {
@@ -312,13 +311,13 @@ const recommend = (risk: CollisionRisk): ManeuverRecommendation => {
     missDistance: miss,
     timeToClosestApproach: tca,
   } = risk;
-  const rule = rules.find((r) => r.test(pc, miss))!;
-
+  const action = classify(pc, miss);
+  const { reasoning, deltaV } = actionMap[action];
   return {
-    action: rule.action,
+    action,
     risk,
-    deltaVRequired: rule.deltaV(miss, tca),
-    reasoning: rule.reasoning(pc, miss),
+    deltaVRequired: deltaV(miss, tca),
+    reasoning: reasoning(pc, miss),
   };
 };
 
