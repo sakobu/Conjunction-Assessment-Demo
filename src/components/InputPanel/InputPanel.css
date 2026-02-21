@@ -45,7 +45,9 @@ select {
   font-weight: 600;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: background-color 0.15s, opacity 0.15s;
+  transition:
+    background-color 0.15s,
+    opacity 0.15s;
 }
 
 .btn:disabled {
@@ -93,4 +95,6 @@ select {
 }
 
 /* InputPanel-specific */
-.field-error--spaced { margin-bottom: 12px; }
+.field-error--spaced {
+  margin-bottom: 12px;
+}

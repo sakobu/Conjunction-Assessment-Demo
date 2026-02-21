@@ -1,4 +1,14 @@
-.field-row--covariance { margin-top: 4px; }
-.checkbox-gap { margin-right: 6px; }
-.panel__section-title--primary   { border-color: var(--obj-primary);   color: var(--obj-primary); }
-.panel__section-title--secondary { border-color: var(--obj-secondary); color: var(--obj-secondary); }
+.field-row--covariance {
+  margin-top: 4px;
+}
+.checkbox-gap {
+  margin-right: 6px;
+}
+.panel__section-title--primary {
+  border-color: var(--obj-primary);
+  color: var(--obj-primary);
+}
+.panel__section-title--secondary {
+  border-color: var(--obj-secondary);
+  color: var(--obj-secondary);
+}
