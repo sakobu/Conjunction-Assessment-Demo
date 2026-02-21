@@ -30,7 +30,7 @@ import {
   required,
   optional,
   chain,
-  number,
+  parseNumber,
   string,
   min,
   max,
@@ -89,12 +89,12 @@ export type AssessError =
 // --- Schemas --------------------------------------------------
 
 const positionSchema = tupleOf(
-  chain(number(), finite(), min(-50_000), max(50_000)),
+  chain(parseNumber(), finite(), min(-50_000), max(50_000)),
   3,
 );
-const velocitySchema = tupleOf(chain(number(), finite(), min(-15), max(15)), 3);
+const velocitySchema = tupleOf(chain(parseNumber(), finite(), min(-15), max(15)), 3);
 const covarianceSchema = tupleOf(
-  chain(number(), finite(), min(0), max(100)),
+  chain(parseNumber(), finite(), min(0), max(100)),
   3,
 );
 

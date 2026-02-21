@@ -23,10 +23,9 @@ export function SpaceObjectFields({
     index: number,
     raw: string,
   ) => {
-    const current = (values[field] ?? [0, 0, 0]) as Vec3;
-    const next: Vec3 = [...current];
-    next[index] = raw === "" ? 0 : Number(raw);
-    form.setFieldValue(`${prefix}.${field}`, next);
+    const current = [...((values[field] ?? [0, 0, 0]) as Vec3)];
+    current[index] = raw as unknown as number; // parseNumber() handles coercion at validation
+    form.setFieldValue(`${prefix}.${field}`, current);
   };
 
   const hasCovariance = values.covariance !== undefined;
