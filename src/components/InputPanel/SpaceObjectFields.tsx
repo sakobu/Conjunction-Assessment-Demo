@@ -1,5 +1,6 @@
 import type { ConjunctionInput, Vec3 } from "../../lib/index.ts";
 import type { useForm } from "@railway-ts/use-form";
+import { fromNullable, isSome, unwrapOr } from "@railway-ts/pipelines/option";
 import "./SpaceObjectFields.css";
 
 const defaultVec3: Vec3 = [0, 0, 0];
@@ -29,8 +30,9 @@ export function SpaceObjectFields({
     form.setFieldValue(`${prefix}.${field}.${index}`, raw);
   };
 
-  const hasCovariance = values.covariance !== undefined;
-  const covValues = values.covariance ?? defaultVec3;
+  const covOption = fromNullable(values.covariance);
+  const hasCovariance = isSome(covOption);
+  const covValues = unwrapOr(covOption, defaultVec3);
 
   return (
     <div className="panel__section">
@@ -105,13 +107,12 @@ export function SpaceObjectFields({
           <input
             type="checkbox"
             checked={hasCovariance}
-            onChange={(e) => {
-              if (e.target.checked) {
-                form.setFieldValue(`${prefix}.covariance`, [0.05, 0.05, 0.05]);
-              } else {
-                form.setFieldValue(`${prefix}.covariance`, undefined);
-              }
-            }}
+            onChange={(e) =>
+              form.setFieldValue(
+                `${prefix}.covariance`,
+                e.target.checked ? [0.05, 0.05, 0.05] : undefined,
+              )
+            }
             className="checkbox-gap"
           />
           Covariance 1-sigma (km)
