@@ -34,8 +34,8 @@ export function SpaceObjectFields({
   return (
     <div className="panel__section">
       <div
-        className="panel__section-title"
-        style={{ borderColor: color, color }}
+        className="panel__section-title panel__section-title--object"
+        style={{ '--obj-color': color } as React.CSSProperties}
       >
         {label}
       </div>
@@ -111,12 +111,12 @@ export function SpaceObjectFields({
                 form.setFieldValue(`${prefix}.covariance`, undefined);
               }
             }}
-            style={{ marginRight: 6 }}
+            className="checkbox-gap"
           />
           Covariance 1-sigma (km)
         </label>
         {hasCovariance && (
-          <div className="field-row" style={{ marginTop: 4 }}>
+          <div className="field-row field-row--covariance">
             {[0, 1, 2].map((i) => (
               <div key={i}>
                 <input

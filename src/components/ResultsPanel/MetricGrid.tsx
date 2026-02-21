@@ -22,14 +22,7 @@ export function MetricGrid({ rec }: MetricGridProps) {
   });
 
   return (
-    <div
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1fr 1fr",
-        gap: 8,
-        marginBottom: 16,
-      }}
-    >
+    <div className="metric-grid">
       <MetricCard
         label="Miss Distance"
         value={rec.risk.missDistance.toFixed(4)}

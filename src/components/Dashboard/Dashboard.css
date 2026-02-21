@@ -147,3 +147,8 @@
 .field-row input {
   text-align: center;
 }
+
+.field-error--spaced { margin-bottom: 12px; }
+.field-row--covariance { margin-top: 4px; }
+.checkbox-gap { margin-right: 6px; }
+.panel__section-title--object { border-color: var(--obj-color); color: var(--obj-color); }

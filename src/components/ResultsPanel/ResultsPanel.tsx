@@ -5,6 +5,7 @@ import type {
 import { RiskBadge } from "./RiskBadge.tsx";
 import { MetricGrid } from "./MetricGrid.tsx";
 import { ErrorDisplay } from "./ErrorDisplay.tsx";
+import "./ResultsPanel.css";
 
 type ResultState =
   | { status: "idle" }
@@ -22,23 +23,8 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
         <div className="panel__section-title">Assessment Results</div>
 
         {result.status === "idle" && (
-          <div
-            style={{
-              textAlign: "center",
-              padding: "40px 20px",
-              color: "var(--text-muted)",
-              fontSize: "0.8125rem",
-            }}
-          >
-            <div
-              style={{
-                fontSize: "2rem",
-                marginBottom: 8,
-                opacity: 0.3,
-              }}
-            >
-              &#x25CE;
-            </div>
+          <div className="results-idle">
+            <div className="results-idle__icon">&#x25CE;</div>
             Select a scenario and click
             <br />
             <strong>Assess Conjunction</strong>
@@ -54,40 +40,29 @@ export function ResultsPanel({ result }: ResultsPanelProps) {
             <MetricGrid rec={result.data} />
             <div className="panel__section">
               <div className="panel__section-title">Reasoning</div>
-              <div
-                style={{
-                  fontSize: "0.8125rem",
-                  color: "var(--text-secondary)",
-                  lineHeight: 1.6,
-                  fontFamily: "var(--font-mono)",
-                  background: "var(--bg-card)",
-                  padding: "10px 12px",
-                  borderRadius: 4,
-                  border: "1px solid var(--border-subtle)",
-                }}
-              >
+              <div className="results-reasoning">
                 {result.data.reasoning}
               </div>
             </div>
 
             <div className="panel__section">
               <div className="panel__section-title">Objects</div>
-              <div style={{ fontSize: "0.8125rem" }}>
-                <div style={{ marginBottom: 4 }}>
-                  <span style={{ color: "var(--obj-primary)" }}>&#9679;</span>{" "}
-                  <span style={{ fontFamily: "var(--font-mono)" }}>
+              <div className="results-objects">
+                <div className="results-objects__row" style={{ '--obj-color': 'var(--obj-primary)' } as React.CSSProperties}>
+                  <span className="results-objects__dot">&#9679;</span>{" "}
+                  <span className="results-objects__id">
                     {result.data.risk.primary.id}
                   </span>
-                  <span style={{ color: "var(--text-muted)", marginLeft: 8 }}>
+                  <span className="results-objects__type">
                     {result.data.risk.primary.objectType}
                   </span>
                 </div>
-                <div>
-                  <span style={{ color: "var(--obj-secondary)" }}>&#9679;</span>{" "}
-                  <span style={{ fontFamily: "var(--font-mono)" }}>
+                <div className="results-objects__row" style={{ '--obj-color': 'var(--obj-secondary)' } as React.CSSProperties}>
+                  <span className="results-objects__dot">&#9679;</span>{" "}
+                  <span className="results-objects__id">
                     {result.data.risk.secondary.id}
                   </span>
-                  <span style={{ color: "var(--text-muted)", marginLeft: 8 }}>
+                  <span className="results-objects__type">
                     {result.data.risk.secondary.objectType}
                   </span>
                 </div>

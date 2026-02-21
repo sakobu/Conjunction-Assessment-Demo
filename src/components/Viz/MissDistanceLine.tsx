@@ -1,4 +1,5 @@
 import { Line, Html } from "@react-three/drei";
+import "../ResultsPanel/ResultsPanel.css";
 
 type MissDistanceLineProps = {
   start: [number, number, number];
@@ -34,18 +35,7 @@ export function MissDistanceLine({
         opacity={0.6}
       />
       <Html position={midpoint} center style={{ pointerEvents: "none" }}>
-        <div
-          style={{
-            background: "rgba(0,0,0,0.8)",
-            color: "#e2e8f0",
-            padding: "2px 6px",
-            borderRadius: 3,
-            fontSize: "10px",
-            fontFamily: "monospace",
-            whiteSpace: "nowrap",
-            border: "1px solid rgba(255,255,255,0.2)",
-          }}
-        >
+        <div className="miss-label">
           {distance.toFixed(4)} km
         </div>
       </Html>

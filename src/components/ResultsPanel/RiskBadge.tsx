@@ -22,38 +22,15 @@ export function RiskBadge({ action, collisionProbability }: RiskBadgeProps) {
 
   return (
     <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "10px 14px",
-        borderRadius: 6,
-        background: "rgba(0,0,0,0.3)",
-        border: `1px solid ${config.color}`,
-        marginBottom: 16,
-      }}
+      className="risk-badge"
+      style={{ '--risk-color': config.color } as React.CSSProperties}
     >
-      <div
-        style={{
-          width: 14,
-          height: 14,
-          borderRadius: "50%",
-          background: config.color,
-          boxShadow: `0 0 12px ${config.color}`,
-        }}
-      />
+      <div className="risk-badge__dot" />
       <div>
-        <div
-          style={{
-            fontFamily: "var(--font-mono)",
-            fontWeight: 700,
-            fontSize: "0.9375rem",
-            color: config.color,
-          }}
-        >
+        <div className="risk-badge__label">
           {config.label} — {action.replace("_", " ").toUpperCase()}
         </div>
-        <div style={{ fontSize: "0.75rem", color: "var(--text-muted)" }}>
+        <div className="risk-badge__threshold">
           {thresholdLabel}
         </div>
       </div>

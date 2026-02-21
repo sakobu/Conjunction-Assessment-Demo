@@ -36,7 +36,7 @@ export function InputPanel({
         />
 
         {form.errors["secondary.id"] === "Primary and secondary must be different objects" && (
-          <div className="field-error" style={{ marginBottom: 12 }}>
+          <div className="field-error field-error--spaced">
             {form.errors["secondary.id"]}
           </div>
         )}
