@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react";
 import { useForm } from "@railway-ts/use-form";
+import { pipe } from "@railway-ts/pipelines/composition";
 import { match, tapWith } from "@railway-ts/pipelines/result";
 import { validate } from "@railway-ts/pipelines/schema";
 import {
@@ -41,11 +42,10 @@ export function useConjunctionAssessment() {
   const form = useForm<ConjunctionInput>(conjunctionInputSchema, {
     initialValues,
     onValuesChange: (values) => {
-      tapWith(setLiveValues)(validate(values, conjunctionInputSchema));
+      pipe(validate(values, conjunctionInputSchema), tapWith(setLiveValues));
     },
     onSubmit: (values) => {
-      const assessed = assessConjunction(values);
-      match(assessed, {
+      match(pipe(values, assessConjunction), {
         ok: (rec: ManeuverRecommendation) =>
           setResult({ status: "success", data: rec }),
         err: (error: AssessError) => setResult({ status: "error", error }),
