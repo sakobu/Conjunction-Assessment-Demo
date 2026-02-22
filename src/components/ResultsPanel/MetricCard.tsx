@@ -1,9 +1,11 @@
 import "./MetricCard.css";
+import { match as matchOption } from "@railway-ts/pipelines/option";
+import type { Option } from "@railway-ts/pipelines/option";
 
 type MetricCardProps = {
   label: string;
   value: string;
-  unit?: string;
+  unit: Option<string>;
 };
 
 export function MetricCard({ label, value, unit }: MetricCardProps) {
@@ -14,11 +16,10 @@ export function MetricCard({ label, value, unit }: MetricCardProps) {
       </div>
       <div className="metric-card__value">
         {value}
-        {unit && (
-          <span className="metric-card__unit">
-            {unit}
-          </span>
-        )}
+        {matchOption(unit, {
+          some: (u) => <span className="metric-card__unit">{u}</span>,
+          none: () => null,
+        })}
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ import {
   type ConjunctionInput,
   type ManeuverRecommendation,
 } from "../../lib/index.ts";
+import { fromTry, isOk, match } from "@railway-ts/pipelines/result";
 
 type ConjunctionSceneProps = {
   values: ConjunctionInput;
@@ -75,15 +76,16 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
     }
   });
 
-  const geometry = useMemo(() => {
-    try {
-      return computeGeometry(values);
-    } catch {
-      return null;
-    }
-  }, [values]);
+  const geometryResult = useMemo(
+    () => fromTry(() => computeGeometry(values)),
+    [values],
+  );
 
-  const tca = geometry?.timeToClosestApproach ?? 0;
+  const tca = match(geometryResult, {
+    ok: (g) => g.timeToClosestApproach,
+    err: () => 0,
+  });
+
   const hasResult = result.status === "success";
   const riskColor = hasResult
     ? getRiskColor(result.data.risk.collisionProbability)
@@ -149,7 +151,7 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
       />
 
       {/* Trajectory paths */}
-      {geometry && (
+      {isOk(geometryResult) && (
         <>
           <TrajectoryPath
             position={values.primary.position}
