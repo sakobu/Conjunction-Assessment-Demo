@@ -1,9 +1,10 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import type { Mesh } from "three";
+import type { Vec3 } from "../../lib/index.ts";
 
 type EncounterZoneProps = {
-  position: [number, number, number];
+  position: Vec3;
   color: string;
   visible: boolean;
 };

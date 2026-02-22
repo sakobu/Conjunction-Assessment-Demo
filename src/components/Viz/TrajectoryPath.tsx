@@ -22,7 +22,7 @@ export function TrajectoryPath({
   dashed = false,
 }: TrajectoryPathProps) {
   const points = useMemo(() => {
-    const pts: [number, number, number][] = [];
+    const pts: Vec3[] = [];
     for (let i = 0; i <= NUM_POINTS; i++) {
       const t = tca - TIME_RANGE + (i / NUM_POINTS) * TIME_RANGE * 2;
       const p = propagateLinear(t)(position)(velocity);

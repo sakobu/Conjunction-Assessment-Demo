@@ -1,9 +1,10 @@
 import { Line, Html } from "@react-three/drei";
+import type { Vec3 } from "../../lib/index.ts";
 import "./MissDistanceLine.css";
 
 type MissDistanceLineProps = {
-  start: [number, number, number];
-  end: [number, number, number];
+  start: Vec3;
+  end: Vec3;
   distance: number;
   visible: boolean;
 };
@@ -16,7 +17,7 @@ export function MissDistanceLine({
 }: MissDistanceLineProps) {
   if (!visible) return null;
 
-  const midpoint: [number, number, number] = [
+  const midpoint: Vec3 = [
     (start[0] + end[0]) / 2,
     (start[1] + end[1]) / 2,
     (start[2] + end[2]) / 2,

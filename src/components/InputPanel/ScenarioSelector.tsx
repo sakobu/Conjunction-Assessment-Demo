@@ -17,7 +17,7 @@ export function ScenarioSelector({
       <select
         id="scenario-select"
         value={selectedIndex}
-        onChange={(e) => onSelect(Number(e.target.value))}
+        onChange={(e) => onSelect(e.target.selectedIndex - 1)}
       >
         <option value={-1}>-- Select a scenario --</option>
         {scenarios.map((s, i) => (

@@ -3,6 +3,7 @@ import "./ConjunctionScene.css";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Stars, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
+import type { Vec3 } from "../../lib/index.ts";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import { Earth } from "./Earth.tsx";
 import { SpaceObjectMarker } from "./SpaceObjectMarker.tsx";
@@ -38,7 +39,7 @@ function CameraController({
   target,
   controlsRef,
 }: {
-  target: [number, number, number];
+  target: Vec3;
   controlsRef: React.RefObject<OrbitControlsImpl | null>;
 }) {
   const { camera } = useThree();
@@ -103,18 +104,18 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
     [tca, values.secondary.position, values.secondary.velocity],
   );
 
-  const primaryTCAScaled: [number, number, number] = [
+  const primaryTCAScaled: Vec3 = [
     primaryAtTCA[0] * SCALE,
     primaryAtTCA[1] * SCALE,
     primaryAtTCA[2] * SCALE,
   ];
-  const secondaryTCAScaled: [number, number, number] = [
+  const secondaryTCAScaled: Vec3 = [
     secondaryAtTCA[0] * SCALE,
     secondaryAtTCA[1] * SCALE,
     secondaryAtTCA[2] * SCALE,
   ];
 
-  const encounterMidpoint: [number, number, number] = [
+  const encounterMidpoint: Vec3 = [
     (primaryTCAScaled[0] + secondaryTCAScaled[0]) / 2,
     (primaryTCAScaled[1] + secondaryTCAScaled[1]) / 2,
     (primaryTCAScaled[2] + secondaryTCAScaled[2]) / 2,

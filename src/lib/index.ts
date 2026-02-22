@@ -156,7 +156,7 @@ const timeToClosestApproach = (relPos: Vec3, relVel: Vec3): number => {
   return Math.max(0, -vec3Dot(relPos, relVel) / vSquared);
 };
 
-// Effectively POCA Propagation (linear, no perturbations)
+// Effectively get POCA Propagation (linear, no perturbations)
 export const propagateLinear = curry(
   (dt: number, pos: Vec3, vel: Vec3): Vec3 => [
     pos[0] + vel[0] * dt,
@@ -348,35 +348,6 @@ export const assessConjunction = flow(
     }
   }),
 );
-
-// --- Formatting ----------------------------------------------
-
-export const formatRecommendation = (rec: ManeuverRecommendation): string => {
-  const dvMapped = optMapWith((v: number) => `${(v * 1000).toFixed(2)} m/s`)(
-    rec.deltaVRequired,
-  );
-  const dv = unwrapOr(dvMapped, "N/A");
-
-  const cov = matchOption(rec.risk.combinedCovariance, {
-    some: (c: Vec3) =>
-      `[${c.map((v: number) => `${(v * 1000).toFixed(1)}m`).join(", ")}]`,
-    none: () => "unavailable (using default 50m)",
-  });
-
-  return [
-    `Primary:    ${rec.risk.primary.id}`,
-    `Secondary:  ${rec.risk.secondary.id}`,
-    `Miss Distance:     ${rec.risk.missDistance.toFixed(4)} km`,
-    `Relative Velocity: ${rec.risk.relativeVelocity.toFixed(4)} km/s`,
-    `Time to TCA:       ${rec.risk.timeToClosestApproach.toFixed(1)} s`,
-    `Radial Separation: ${rec.risk.radialSeparation.toFixed(4)} km`,
-    `Combined 1sigma:   ${cov}`,
-    `Collision Prob:    ${rec.risk.collisionProbability.toExponential(3)}`,
-    `Action:            ${rec.action.toUpperCase()}`,
-    `dV Required:       ${dv}`,
-    `Reasoning:         ${rec.reasoning}`,
-  ].join("\n");
-};
 
 // --- Scenarios ------------------------------------------------
 
