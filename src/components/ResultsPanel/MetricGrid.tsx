@@ -1,10 +1,6 @@
 import { MetricCard } from "./MetricCard.tsx";
 import "./MetricGrid.css";
-import {
-  match as matchOption,
-  mapWith as optMapWith,
-  unwrapOr,
-} from "@railway-ts/pipelines/option";
+import { match as matchOption } from "@railway-ts/pipelines/option";
 import type { ManeuverRecommendation, Vec3 } from "../../lib/index.ts";
 
 type MetricGridProps = {
@@ -12,13 +8,14 @@ type MetricGridProps = {
 };
 
 export function MetricGrid({ rec }: MetricGridProps) {
-  const dvMapped = optMapWith((v: number) => `${(v * 1000).toFixed(2)}`)(
-    rec.deltaVRequired,
-  );
-  const dv = unwrapOr(dvMapped, "N/A");
+  const { dv, dvUnit } = matchOption(rec.deltaVRequired, {
+    some: (v: number) => ({ dv: `${(v * 1000).toFixed(2)}`, dvUnit: "m/s" }),
+    none: () => ({ dv: "N/A", dvUnit: undefined }),
+  });
 
   const covLabel = matchOption(rec.risk.combinedCovariance, {
-    some: (c: Vec3) => c.map((v: number) => `${(v * 1000).toFixed(1)}m`).join(", "),
+    some: (c: Vec3) =>
+      c.map((v: number) => `${(v * 1000).toFixed(1)}m`).join(", "),
     none: () => "default 50m",
   });
 
@@ -43,7 +40,7 @@ export function MetricGrid({ rec }: MetricGridProps) {
         value={rec.risk.timeToClosestApproach.toFixed(1)}
         unit="s"
       />
-      <MetricCard label="Delta-V" value={dv} unit={dv !== "N/A" ? "m/s" : undefined} />
+      <MetricCard label="Delta-V" value={dv} unit={dvUnit} />
       <MetricCard label="1-sigma" value={covLabel} />
     </div>
   );

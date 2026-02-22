@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
-import type { Mesh } from "three";
+import type { Mesh, MeshBasicMaterial } from "three";
 import type { Vec3 } from "../../lib/index.ts";
 
 type EncounterZoneProps = {
@@ -11,7 +11,11 @@ type EncounterZoneProps = {
 
 const MIN_VISUAL_RADIUS = 0.05;
 
-export function EncounterZone({ position, color, visible }: EncounterZoneProps) {
+export function EncounterZone({
+  position,
+  color,
+  visible,
+}: EncounterZoneProps) {
   const meshRef = useRef<Mesh>(null);
 
   useFrame((_, delta) => {
@@ -22,7 +26,7 @@ export function EncounterZone({ position, color, visible }: EncounterZoneProps) 
     }
     // Fade in
     if (meshRef.current?.material) {
-      const mat = meshRef.current.material as { opacity: number };
+      const mat = meshRef.current.material as MeshBasicMaterial;
       const target = visible ? 0.25 : 0;
       mat.opacity += (target - mat.opacity) * delta * 3;
     }
@@ -31,7 +35,12 @@ export function EncounterZone({ position, color, visible }: EncounterZoneProps) 
   return (
     <mesh ref={meshRef} position={position}>
       <sphereGeometry args={[MIN_VISUAL_RADIUS, 24, 24]} />
-      <meshBasicMaterial color={color} transparent opacity={0} depthWrite={false} />
+      <meshBasicMaterial
+        color={color}
+        transparent
+        opacity={0}
+        depthWrite={false}
+      />
     </mesh>
   );
 }
