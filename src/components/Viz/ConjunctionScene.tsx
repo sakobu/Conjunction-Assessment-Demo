@@ -87,9 +87,11 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
   });
 
   const hasResult = result.status === "success";
+
   const riskColor = hasResult
     ? getRiskColor(result.data.risk.collisionProbability)
     : "#22c55e";
+
   const missDistance = hasResult ? result.data.risk.missDistance : 0;
 
   // TCA positions
@@ -98,6 +100,7 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
       propagateLinear(tca)(values.primary.position)(values.primary.velocity),
     [tca, values.primary.position, values.primary.velocity],
   );
+
   const secondaryAtTCA = useMemo(
     () =>
       propagateLinear(tca)(values.secondary.position)(
@@ -111,6 +114,7 @@ function SceneContent({ values, result }: ConjunctionSceneProps) {
     primaryAtTCA[1] * SCALE,
     primaryAtTCA[2] * SCALE,
   ];
+
   const secondaryTCAScaled: Vec3 = [
     secondaryAtTCA[0] * SCALE,
     secondaryAtTCA[1] * SCALE,

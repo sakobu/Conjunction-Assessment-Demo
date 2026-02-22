@@ -18,7 +18,7 @@ export function SpaceObjectMarker({
   labelOffset = "above",
   markerScale = 1,
 }: SpaceObjectMarkerProps) {
-  const pos: [number, number, number] = [
+  const pos: Vec3 = [
     position[0] * SCALE,
     position[1] * SCALE,
     position[2] * SCALE,

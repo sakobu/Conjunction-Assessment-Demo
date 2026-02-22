@@ -19,18 +19,16 @@ type ResultState =
 
 const initialValues: ConjunctionInput = {
   primary: {
-    id: "",
+    id: "1",
     objectType: "payload",
     position: [0, 0, 0],
     velocity: [0, 0, 0],
-    covariance: undefined,
   },
   secondary: {
-    id: "",
+    id: "2",
     objectType: "debris",
     position: [0, 0, 0],
     velocity: [0, 0, 0],
-    covariance: undefined,
   },
 };
 

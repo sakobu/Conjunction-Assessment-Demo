@@ -1,23 +1,48 @@
 /* ErrorDisplay — domain variant (red) and validation variant (amber) use --error-color */
 .error-box {
-  border-radius: 6px; padding: 12px 14px;
+  border-radius: 6px;
+  padding: 12px 14px;
   border: 1px solid var(--error-color);
 }
-.error-box--domain { background: rgba(239, 68, 68, 0.1); --error-color: var(--risk-red); }
-.error-box--validation { background: rgba(234, 179, 8, 0.1); --error-color: var(--risk-amber); }
-.error-box__heading {
-  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600;
-  color: var(--error-color); text-transform: uppercase;
+.error-box--domain {
+  background: rgba(239, 68, 68, 0.1);
+  --error-color: var(--risk-red);
 }
-.error-box__heading--domain { margin-bottom: 4px; }
-.error-box__heading--validation { margin-bottom: 8px; }
-.error-box__message { font-size: 0.8125rem; color: var(--text-primary); }
-.error-box__list { list-style: none; padding: 0; margin: 0; }
+.error-box--validation {
+  background: rgba(234, 179, 8, 0.1);
+  --error-color: var(--risk-amber);
+}
+.error-box__heading {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--error-color);
+  text-transform: uppercase;
+}
+.error-box__heading--domain {
+  margin-bottom: 4px;
+}
+.error-box__heading--validation {
+  margin-bottom: 8px;
+}
+.error-box__message {
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+}
+.error-box__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
 .error-box__item {
-  font-size: 0.8125rem; color: var(--text-primary);
-  margin-bottom: 4px; padding-left: 8px;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  padding-left: 8px;
   border-left: 2px solid var(--risk-amber);
 }
 .error-box__field {
-  font-family: var(--font-mono); font-size: 0.6875rem; color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-muted);
 }
