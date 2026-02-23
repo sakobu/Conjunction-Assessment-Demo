@@ -4,6 +4,8 @@ A real-time space conjunction risk assessment tool that evaluates collision prob
 
 [Try it on StackBlitz](https://stackblitz.com/github/sakobu/Conjunction-Assessment-Demo?file=src%2FApp.tsx)
 
+> If StackBlitz appears stuck on "cloning from repo", hit refresh. This is a known StackBlitz bug.
+
 ## Overview
 
 The dashboard accepts orbital state vectors (position, velocity, optional covariance) for two space objects, computes their closest approach geometry, estimates collision probability using a simplified Chan's method, and produces a maneuver recommendation with human-readable reasoning.
@@ -50,6 +52,7 @@ The core pipeline in `src/lib/index.ts` composes pure functions via `flow` over 
 4. **Recommend** — Classifies into `maneuver` / `monitor` / `no_action` based on Pc thresholds and miss distance screening
 
 Key thresholds:
+
 - **Red** (maneuver): Pc > 1e-4
 - **Yellow** (monitor): Pc > 1e-5 or miss distance < 1 km
 - **Green** (no action): below both
@@ -70,27 +73,27 @@ All geometry updates live as form values change, before assessment is submitted.
 
 Six built-in scenarios plus two validation test cases:
 
-| Scenario | Description |
-|---|---|
-| ISS vs Cosmos Debris | Close approach with covariance — high risk |
-| Sentinel-6A Flyby | 5 km separation, no covariance — low risk |
-| Starlink vs Fengyun Debris | Similar orbit with covariance |
-| Duplicate Object ID | Validation error: same ID for both objects |
-| Invalid Velocity | Validation error: exceeds 15 km/s bound |
-| Co-orbital | Domain error: relative velocity too low for stable TCA |
+| Scenario                   | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| ISS vs Cosmos Debris       | Close approach with covariance — high risk             |
+| Sentinel-6A Flyby          | 5 km separation, no covariance — low risk              |
+| Starlink vs Fengyun Debris | Similar orbit with covariance                          |
+| Duplicate Object ID        | Validation error: same ID for both objects             |
+| Invalid Velocity           | Validation error: exceeds 15 km/s bound                |
+| Co-orbital                 | Domain error: relative velocity too low for stable TCA |
 
 ## Tech Stack
 
-| Dependency | Role |
-|---|---|
-| React 19 | UI rendering |
-| TypeScript 5.9 | Strict type safety |
-| Vite 7 | Dev server + bundler |
+| Dependency            | Role                                                           |
+| --------------------- | -------------------------------------------------------------- |
+| React 19              | UI rendering                                                   |
+| TypeScript 5.9        | Strict type safety                                             |
+| Vite 7                | Dev server + bundler                                           |
 | @railway-ts/pipelines | Result/Option types, schema validation, functional composition |
-| @railway-ts/use-form | Form state management with schema-driven validation |
-| Three.js | 3D graphics |
-| @react-three/fiber | React renderer for Three.js |
-| @react-three/drei | Stars, OrbitControls, Billboard, Text, Line, Html |
+| @railway-ts/use-form  | Form state management with schema-driven validation            |
+| Three.js              | 3D graphics                                                    |
+| @react-three/fiber    | React renderer for Three.js                                    |
+| @react-three/drei     | Stars, OrbitControls, Billboard, Text, Line, Html              |
 
 ## Getting Started
 
@@ -101,9 +104,9 @@ npm run dev
 
 ## Scripts
 
-| Command | Description |
-|---|---|
-| `npm run dev` | Start Vite dev server with HMR |
-| `npm run build` | Type-check (`tsc -b`) then bundle with Vite |
-| `npm run lint` | Run ESLint |
-| `npm run preview` | Preview the production build |
+| Command           | Description                                 |
+| ----------------- | ------------------------------------------- |
+| `npm run dev`     | Start Vite dev server with HMR              |
+| `npm run build`   | Type-check (`tsc -b`) then bundle with Vite |
+| `npm run lint`    | Run ESLint                                  |
+| `npm run preview` | Preview the production build                |
