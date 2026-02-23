@@ -2,6 +2,8 @@
 
 A real-time space conjunction risk assessment tool that evaluates collision probability between orbiting objects and recommends maneuver actions. Built with React, Three.js, and functional programming patterns via [@railway-ts/pipelines](https://www.npmjs.com/package/@railway-ts/pipelines) and [@railway-ts/use-form](https://www.npmjs.com/package/@railway-ts/use-form).
 
+[Try it on StackBlitz](https://stackblitz.com/github/sakobu/Conjunction-Assessment-Demo?file=src%2FApp.tsx)
+
 ## Overview
 
 The dashboard accepts orbital state vectors (position, velocity, optional covariance) for two space objects, computes their closest approach geometry, estimates collision probability using a simplified Chan's method, and produces a maneuver recommendation with human-readable reasoning.
