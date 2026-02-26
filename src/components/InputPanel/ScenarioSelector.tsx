@@ -1,4 +1,5 @@
 import { scenarios } from "../../lib/index.ts";
+import { FormField } from "./FormField.tsx";
 
 type ScenarioSelectorProps = {
   selectedIndex: number;
@@ -10,10 +11,7 @@ export function ScenarioSelector({
   onSelect,
 }: ScenarioSelectorProps) {
   return (
-    <div className="field-group">
-      <label className="field-label" htmlFor="scenario-select">
-        Load Scenario
-      </label>
+    <FormField label="Load Scenario" htmlFor="scenario-select">
       <select
         id="scenario-select"
         value={selectedIndex}
@@ -26,6 +24,6 @@ export function ScenarioSelector({
           </option>
         ))}
       </select>
-    </div>
+    </FormField>
   );
 }

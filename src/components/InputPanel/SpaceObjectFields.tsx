@@ -2,12 +2,11 @@ import type { ConjunctionInput } from "../../lib/index.ts";
 import type { UseFormReturn, ExtractFieldPaths } from "@railway-ts/use-form";
 import { fromNullable, isSome } from "@railway-ts/pipelines/option";
 import { getError } from "./formUtils.ts";
+import { FormField } from "./FormField.tsx";
 import "./SpaceObjectFields.css";
 
-type FormInstance = UseFormReturn<ConjunctionInput>;
-
 type SpaceObjectFieldsProps = {
-  form: FormInstance;
+  form: UseFormReturn<ConjunctionInput>;
   prefix: "primary" | "secondary";
   label: string;
 };
@@ -28,22 +27,17 @@ export function SpaceObjectFields({
         {label}
       </div>
 
-      <div className="field-group">
-        <label className="field-label">Object ID</label>
+      <FormField form={form} name={`${prefix}.id`} label="Object ID">
         <input type="text" {...form.getFieldProps(`${prefix}.id`)} />
-        {form.errors[`${prefix}.id`] && (
-          <div className="field-error">{form.errors[`${prefix}.id`]}</div>
-        )}
-      </div>
+      </FormField>
 
-      <div className="field-group">
-        <label className="field-label">Type</label>
+      <FormField form={form} name={`${prefix}.objectType`} label="Type">
         <select {...form.getSelectFieldProps(`${prefix}.objectType`)}>
           <option value="payload">Payload</option>
           <option value="debris">Debris</option>
           <option value="rocket_body">Rocket Body</option>
         </select>
-      </div>
+      </FormField>
 
       <div className="field-group">
         <label className="field-label">Position (km) [X, Y, Z]</label>
@@ -98,11 +92,18 @@ export function SpaceObjectFields({
           />
           Covariance 1-sigma (km)
         </label>
-        {!hasCovariance && getError(form, `${prefix}.covariance` as ExtractFieldPaths<ConjunctionInput>) && (
-          <div className="field-error">
-            {getError(form, `${prefix}.covariance` as ExtractFieldPaths<ConjunctionInput>)}
-          </div>
-        )}
+        {!hasCovariance &&
+          getError(
+            form,
+            `${prefix}.covariance` as ExtractFieldPaths<ConjunctionInput>,
+          ) && (
+            <div className="field-error">
+              {getError(
+                form,
+                `${prefix}.covariance` as ExtractFieldPaths<ConjunctionInput>,
+              )}
+            </div>
+          )}
         {hasCovariance && (
           <div className="field-row field-row--covariance">
             {([0, 1, 2] as const).map((i) => {
