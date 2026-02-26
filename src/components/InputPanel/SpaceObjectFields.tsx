@@ -1,11 +1,17 @@
-import type { ConjunctionInput, Vec3 } from "../../lib/index.ts";
-import type { useForm } from "@railway-ts/use-form";
-import { fromNullable, isSome, unwrapOr } from "@railway-ts/pipelines/option";
+import type { ConjunctionInput } from "../../lib/index.ts";
+import type { UseFormReturn, ExtractFieldPaths } from "@railway-ts/use-form";
+import { fromNullable, isSome } from "@railway-ts/pipelines/option";
 import "./SpaceObjectFields.css";
 
-const defaultVec3: Vec3 = [0, 0, 0];
+type FormInstance = UseFormReturn<ConjunctionInput>;
 
-type FormInstance = ReturnType<typeof useForm<ConjunctionInput>>;
+function getError<T extends Record<string, unknown>>(
+  form: UseFormReturn<T>,
+  field: ExtractFieldPaths<T>,
+): string | undefined {
+  const key = (field as string).replace(/\.(\d+)/g, "[$1]");
+  return form.errors[key] || undefined;
+}
 
 type SpaceObjectFieldsProps = {
   form: FormInstance;
@@ -20,17 +26,8 @@ export function SpaceObjectFields({
 }: SpaceObjectFieldsProps) {
   const values = form.values[prefix];
 
-  const setTupleValue = (
-    field: "position" | "velocity" | "covariance",
-    index: number,
-    raw: string,
-  ) => {
-    form.setFieldValue(`${prefix}.${field}.${index}`, raw);
-  };
-
   const covOption = fromNullable(values.covariance);
   const hasCovariance = isSome(covOption);
-  const covValues = unwrapOr(covOption, defaultVec3);
 
   return (
     <div className="panel__section">
@@ -58,42 +55,38 @@ export function SpaceObjectFields({
       <div className="field-group">
         <label className="field-label">Position (km) [X, Y, Z]</label>
         <div className="field-row">
-          {[0, 1, 2].map((i) => (
-            <div key={i}>
-              <input
-                type="number"
-                step="any"
-                value={values.position[i]}
-                onChange={(e) => setTupleValue("position", i, e.target.value)}
-              />
-              {form.errors[`${prefix}.position[${i}]`] && (
-                <div className="field-error">
-                  {form.errors[`${prefix}.position[${i}]`]}
-                </div>
-              )}
-            </div>
-          ))}
+          {([0, 1, 2] as const).map((i) => {
+            const error = getError(form, `${prefix}.position.${i}`);
+            return (
+              <div key={i}>
+                <input
+                  type="number"
+                  step="any"
+                  {...form.getFieldProps(`${prefix}.position.${i}`)}
+                />
+                {error && <div className="field-error">{error}</div>}
+              </div>
+            );
+          })}
         </div>
       </div>
 
       <div className="field-group">
         <label className="field-label">Velocity (km/s) [X, Y, Z]</label>
         <div className="field-row">
-          {[0, 1, 2].map((i) => (
-            <div key={i}>
-              <input
-                type="number"
-                step="any"
-                value={values.velocity[i]}
-                onChange={(e) => setTupleValue("velocity", i, e.target.value)}
-              />
-              {form.errors[`${prefix}.velocity[${i}]`] && (
-                <div className="field-error">
-                  {form.errors[`${prefix}.velocity[${i}]`]}
-                </div>
-              )}
-            </div>
-          ))}
+          {([0, 1, 2] as const).map((i) => {
+            const error = getError(form, `${prefix}.velocity.${i}`);
+            return (
+              <div key={i}>
+                <input
+                  type="number"
+                  step="any"
+                  {...form.getFieldProps(`${prefix}.velocity.${i}`)}
+                />
+                {error && <div className="field-error">{error}</div>}
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -114,24 +107,20 @@ export function SpaceObjectFields({
         </label>
         {hasCovariance && (
           <div className="field-row field-row--covariance">
-            {[0, 1, 2].map((i) => (
-              <div key={i}>
-                <input
-                  type="number"
-                  step="any"
-                  min="0"
-                  value={covValues[i]}
-                  onChange={(e) =>
-                    setTupleValue("covariance", i, e.target.value)
-                  }
-                />
-                {form.errors[`${prefix}.covariance[${i}]`] && (
-                  <div className="field-error">
-                    {form.errors[`${prefix}.covariance[${i}]`]}
-                  </div>
-                )}
-              </div>
-            ))}
+            {([0, 1, 2] as const).map((i) => {
+              const error = getError(form, `${prefix}.covariance.${i}`);
+              return (
+                <div key={i}>
+                  <input
+                    type="number"
+                    step="any"
+                    min="0"
+                    {...form.getFieldProps(`${prefix}.covariance.${i}`)}
+                  />
+                  {error && <div className="field-error">{error}</div>}
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
