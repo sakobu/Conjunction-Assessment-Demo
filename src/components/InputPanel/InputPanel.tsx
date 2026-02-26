@@ -2,6 +2,7 @@ import type { UseFormReturn } from "@railway-ts/use-form";
 import type { ConjunctionInput } from "../../lib/index.ts";
 import { ScenarioSelector } from "./ScenarioSelector.tsx";
 import { SpaceObjectFields } from "./SpaceObjectFields.tsx";
+import { getError } from "./formUtils.ts";
 import "./InputPanel.css";
 
 type InputPanelProps = {
@@ -35,10 +36,10 @@ export function InputPanel({
           label="Secondary Object"
         />
 
-        {form.errors["secondary.id"] ===
+        {getError(form, "secondary.id") ===
           "Primary and secondary must be different objects" && (
           <div className="field-error field-error--spaced">
-            {form.errors["secondary.id"]}
+            {getError(form, "secondary.id")}
           </div>
         )}
 

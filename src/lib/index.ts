@@ -24,26 +24,7 @@ import {
   tapErrWith,
   type Result,
 } from "@railway-ts/pipelines/result";
-import {
-  validate,
-  object,
-  required,
-  optional,
-  chain,
-  parseNumber,
-  string,
-  min,
-  max,
-  finite,
-  refineAt,
-  nonEmpty,
-  transform,
-  stringEnum,
-  tupleOf,
-  formatErrors,
-  type InferSchemaType,
-  type ValidationError,
-} from "@railway-ts/pipelines/schema";
+import * as S from "@railway-ts/pipelines/schema";
 
 // --- Constants ------------------------------------------------
 
@@ -58,7 +39,7 @@ const ENABLE_DEBUG_PIPELINE_ERRORS = false;
 
 export type Vec3 = [number, number, number];
 
-export type SpaceObject = InferSchemaType<typeof spaceObjectSchema>;
+export type SpaceObject = S.InferSchemaType<typeof spaceObjectSchema>;
 
 export type ConjunctionGeometry = {
   primary: SpaceObject;
@@ -88,48 +69,64 @@ export type AssessError =
 
 // --- Schemas --------------------------------------------------
 
-const positionSchema = tupleOf(
-  chain(parseNumber(), finite(), min(-50_000), max(50_000)),
+const positionSchema = S.tupleOf(
+  S.chain(S.parseNumber(), S.finite(), S.min(-50_000), S.max(50_000)),
   3,
 );
-const velocitySchema = tupleOf(
-  chain(parseNumber(), finite(), min(-15), max(15)),
+const velocitySchema = S.tupleOf(
+  S.chain(S.parseNumber(), S.finite(), S.min(-15), S.max(15)),
   3,
 );
-const covarianceSchema = tupleOf(
-  chain(parseNumber(), finite(), min(0), max(100)),
+const covarianceSchema = S.tupleOf(
+  S.chain(S.parseNumber(), S.finite(), S.min(0), S.max(100)),
   3,
 );
 
-const spaceObjectSchema = object({
-  id: required(
-    chain(
-      string(),
-      nonEmpty("Object ID cannot be empty"),
-      transform((s: string) => s.trim()),
+const spaceObjectSchema = S.object({
+  id: S.required(
+    S.chain(
+      S.string(),
+      S.nonEmpty("Object ID cannot be empty"),
+      S.transform((s: string) => s.trim()),
     ),
   ),
-  objectType: required(
-    stringEnum(["payload", "debris", "rocket_body"] as const),
+  objectType: S.required(
+    S.stringEnum(["payload", "debris", "rocket_body"] as const),
   ),
-  position: required(positionSchema),
-  velocity: required(velocitySchema),
-  covariance: optional(covarianceSchema),
+  position: S.required(positionSchema),
+  velocity: S.required(velocitySchema),
+  covariance: S.optional(covarianceSchema),
 });
 
-export const conjunctionInputSchema = chain(
-  object({
-    primary: required(spaceObjectSchema),
-    secondary: required(spaceObjectSchema),
+export const conjunctionInputSchema = S.chain(
+  S.object({
+    primary: S.required(spaceObjectSchema),
+    secondary: S.required(spaceObjectSchema),
   }),
-  refineAt(
+  S.refineAt(
     "secondary.id",
     (input) => input.primary.id !== input.secondary.id,
     "Primary and secondary must be different objects",
   ),
+  S.when(
+    (input) => input.primary.covariance !== undefined,
+    S.refineAt(
+      "secondary.covariance",
+      (input) => input.secondary.covariance !== undefined,
+      "Secondary covariance required when primary has covariance",
+    ),
+  ),
+  S.when(
+    (input) => input.secondary.covariance !== undefined,
+    S.refineAt(
+      "primary.covariance",
+      (input) => input.primary.covariance !== undefined,
+      "Primary covariance required when secondary has covariance",
+    ),
+  ),
 );
 
-export type ConjunctionInput = InferSchemaType<typeof conjunctionInputSchema>;
+export type ConjunctionInput = S.InferSchemaType<typeof conjunctionInputSchema>;
 
 // --- Pure Vector Math ----------------------------------------
 
@@ -322,16 +319,16 @@ const recommend = (risk: CollisionRisk): ManeuverRecommendation => {
 };
 
 const normalizeAssessError = (
-  error: ValidationError[] | string,
+  error: S.ValidationError[] | string,
 ): AssessError =>
   typeof error === "string"
     ? { kind: "domain", message: error }
-    : { kind: "validation", errors: formatErrors(error) };
+    : { kind: "validation", errors: S.formatErrors(error) };
 
 // --- Main Pipeline -------------------------------------------
 
 const validateAndComputeGeometry = flow(
-  (input: unknown) => validate(input, conjunctionInputSchema),
+  (input: unknown) => S.validate(input, conjunctionInputSchema),
   mapWith(computeGeometry),
   flatMapWith(validateGeometryForRiskModel),
 );

@@ -1,17 +1,10 @@
 import type { ConjunctionInput } from "../../lib/index.ts";
 import type { UseFormReturn, ExtractFieldPaths } from "@railway-ts/use-form";
 import { fromNullable, isSome } from "@railway-ts/pipelines/option";
+import { getError } from "./formUtils.ts";
 import "./SpaceObjectFields.css";
 
 type FormInstance = UseFormReturn<ConjunctionInput>;
-
-function getError<T extends Record<string, unknown>>(
-  form: UseFormReturn<T>,
-  field: ExtractFieldPaths<T>,
-): string | undefined {
-  const key = (field as string).replace(/\.(\d+)/g, "[$1]");
-  return form.errors[key] || undefined;
-}
 
 type SpaceObjectFieldsProps = {
   form: FormInstance;
@@ -105,6 +98,11 @@ export function SpaceObjectFields({
           />
           Covariance 1-sigma (km)
         </label>
+        {!hasCovariance && getError(form, `${prefix}.covariance` as ExtractFieldPaths<ConjunctionInput>) && (
+          <div className="field-error">
+            {getError(form, `${prefix}.covariance` as ExtractFieldPaths<ConjunctionInput>)}
+          </div>
+        )}
         {hasCovariance && (
           <div className="field-row field-row--covariance">
             {([0, 1, 2] as const).map((i) => {
